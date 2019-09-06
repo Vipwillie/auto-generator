@@ -1,0 +1,30 @@
+package com.uooguo.newretail.cloud.devtools.generator.service;
+
+import com.baomidou.mybatisplus.generator.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import lombok.Data;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+
+/**
+ * @author Tiangel
+ * @date 2018-4-3
+ **/
+@Data
+public class EntityNameRewriter extends InjectionConfig {
+
+
+    private String entityName;
+
+    @Override
+    public void initMap() {
+        if (!StringUtils.isEmpty(entityName)) {
+            List<TableInfo> tableInfoList = this.getConfig().getTableInfoList();
+            if(tableInfoList != null){
+                tableInfoList.get(0).setComment(entityName);
+            }
+        }
+    }
+}
