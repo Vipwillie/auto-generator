@@ -85,13 +85,13 @@ public class GenerateService {
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表
         // 自定义 mapper 父类
-        strategyConfig.setSuperMapperClass("com.uooguo.newretail.cloud.framework.base.mapper.BaseMapper");
+        strategyConfig.setSuperMapperClass("com.baomidou.mybatisplus.core.mapper.BaseMapper");
         // 自定义 service 父类
-        strategyConfig.setSuperServiceClass("com.uooguo.newretail.cloud.framework.base.service.BaseService");
+        strategyConfig.setSuperServiceClass("com.baomidou.mybatisplus.extension.service.IService");
         // 自定义 service 实现类父类
-        strategyConfig.setSuperServiceImplClass("com.uooguo.newretail.cloud.framework.base.service.impl.BaseServiceImpl");
+        strategyConfig.setSuperServiceImplClass("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
         // 自定义 controller 父类
-        strategyConfig.setSuperControllerClass("com.uooguo.newretail.cloud.framework.base.controller.BaseController");
+//        strategyConfig.setSuperControllerClass("com.uooguo.newretail.cloud.framework.base.controller.BaseController");
         // 【实体】是否为lombok模型（默认 false）
         strategyConfig.setEntityLombokModel(true);
         // 为true时使用@restControllerStyle

@@ -31,12 +31,12 @@ import ${superControllerClassPackage};
 #end
 @RequestMapping("#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${kotlin})
-class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+class ${table.controllerName}${superControllerClass}()#end
 
 #else
 #if(${superControllerClass})
 @Api(tags = "$!{table.comment} 接口")
-public class ${table.controllerName} extends ${superControllerClass} {
+public class ${table.controllerName}  {
 #else
 public class ${table.controllerName} {
 #end
