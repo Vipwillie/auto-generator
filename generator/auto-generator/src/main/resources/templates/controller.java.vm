@@ -31,8 +31,7 @@ import ${superControllerClassPackage};
 #end
 @RequestMapping("#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${kotlin})
-class ${table.controllerName}${superControllerClass}()#end
-
+class ${table.controllerName}${superControllerClass}()
 #else
 #if(${superControllerClass})
 @Api(tags = "$!{table.comment} 接口")
