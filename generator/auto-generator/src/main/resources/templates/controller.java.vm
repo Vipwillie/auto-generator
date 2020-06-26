@@ -37,6 +37,7 @@ class ${table.controllerName}${superControllerClass}()
 @Api(tags = "$!{table.comment} 接口")
 public class ${table.controllerName}  {
 #else
+@Api(tags = "$!{table.comment} 接口")
 public class ${table.controllerName} {
 #end
 
