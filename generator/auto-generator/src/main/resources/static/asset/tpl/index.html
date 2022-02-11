@@ -66,8 +66,10 @@
                 </div>
             </div>
             <div class="col-sm-12 wrapper-sm text-center">
-                <button class="btn btn-primary" ng-click="forward(0)">上一步</button>
-                <button class="btn btn-primary" ng-disabled="form2.$invalid" ng-click="forward(2)">下一步</button>
+                <button class="btn btn-primary" ng-click="forward(0)">上一步
+                </button>
+                <button class="btn btn-primary" ng-disabled="form2.$invalid"
+                        ng-click="forward(2)">下一步</button>
             </div>
         </form>
         <form name='form3' class='form-horizontal form-property form-validation fade-in-right' method='get'
@@ -76,6 +78,22 @@
                 <div class='panel panel-default' style="height: 740px;">
                     <div class='panel-heading font-bold'>第三步：选择数据表</div>
                     <div class='panel-body'>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="search" class="form-control" value="{{keyword}}" placeholder="Search for..." ng-model="keyword">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="search()">搜索</button>
+                                    </span>
+                                    <div class="input-group-btn">
+                                         <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" ng-click="reset()">重置</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='line line-dashed b-b line-lg'></div>
                         <div style="width:830px">
                             <table class="table table-bordered">
                                 <tr>

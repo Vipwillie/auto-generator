@@ -7,10 +7,13 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 import com.uooguo.newretail.cloud.devtools.generator.task.GenerateTask;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ import java.util.List;
  * @author Tiangel
  * @date 2018-4-3
  **/
+@Slf4j
 @Service
 public class GenerateService {
 
@@ -45,8 +49,10 @@ public class GenerateService {
     public void init() {
 
         globalConfig = new GlobalConfig();
+        //定义数据库日期转换类型
+        globalConfig.setDateType(DateType.ONLY_DATE);
         globalConfig.setFileOverride(true);
-        globalConfig.setActiveRecord(true);
+        globalConfig.setActiveRecord(false);
         // XML 二级缓存
         globalConfig.setEnableCache(false);
         // XML ResultMap
@@ -63,17 +69,18 @@ public class GenerateService {
         // 数据源配置
         dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL);
-        dataSourceConfig.setTypeConvert(new MySqlTypeConvert() {
+        //数据库字段类型与实体类之间的类型转换
+/*        dataSourceConfig.setTypeConvert(new MySqlTypeConvert() {
             // 自定义数据库表字段类型转换【可选】
-            public IColumnType processTypeConvert(String fieldType) {
-                System.out.println("转换类型：" + fieldType);
+            public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
+                log.info("转换类型：{}", fieldType);
                 if (fieldType.toLowerCase().contains("tinyint(1)")) {
                     return DbColumnType.BOOLEAN;
                 }
                 // 注意！！processTypeConvert 存在默认类型转换，如果不是你要的效果请自定义返回、非如下直接返回。
                 return super.processTypeConvert(globalConfig, fieldType);
             }
-        });
+        });*/
         dataSourceConfig.setDriverName(dataSourceProperties.getDriverClassName());
         dataSourceConfig.setUsername(dataSourceProperties.getUsername());
         dataSourceConfig.setPassword(dataSourceProperties.getPassword());
@@ -85,11 +92,11 @@ public class GenerateService {
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表
         // 自定义 mapper 父类
-        strategyConfig.setSuperMapperClass("com.baomidou.mybatisplus.core.mapper.BaseMapper");
+        strategyConfig.setSuperMapperClass("tk.mybatis.mapper.common.Mapper");
         // 自定义 service 父类
-        strategyConfig.setSuperServiceClass("com.baomidou.mybatisplus.extension.service.IService");
+        strategyConfig.setSuperServiceClass(null);
         // 自定义 service 实现类父类
-        strategyConfig.setSuperServiceImplClass("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
+        strategyConfig.setSuperServiceImplClass(null);
         // 自定义 controller 父类
 //        strategyConfig.setSuperControllerClass("com.uooguo.newretail.cloud.framework.base.controller.BaseController");
         // 【实体】是否为lombok模型（默认 false）
@@ -126,6 +133,7 @@ public class GenerateService {
      */
     public void generate(GenerateTask generateTask) {
         AutoGenerator autoGenerator = new AutoGenerator();
+        autoGenerator.setTemplateEngine(new BeetlTemplateEngine());
         //只生成实体类
         if (generateTask.getOnlyGenerateEntity() != null && generateTask.getOnlyGenerateEntity()) {
             TemplateConfig templateConfig = new TemplateConfig();
@@ -140,8 +148,7 @@ public class GenerateService {
             TemplateConfig templateConfig = new TemplateConfig();
             templateConfig.setXml(null);
             autoGenerator.setTemplate(templateConfig);
-            entityNameRewriter.setFileOutConfigList(Collections.singletonList(new FileOutConfig(
-                    "/templates/mapper.xml.vm") {
+            entityNameRewriter.setFileOutConfigList(Collections.singletonList(new FileOutConfig("/templates/btl/mapper.xml.btl") {
                 // 自定义输出文件目录
                 @Override
                 public String outputFile(TableInfo tableInfo) {

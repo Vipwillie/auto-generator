@@ -40,9 +40,9 @@ public class GeneratorController {
      */
     @GetMapping("/env")
     @ApiOperation("获取代码生成器配置")
-    public Object blackboard() {
+    public Object blackboard(String keyword) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("tables", tableService.getAllTables());
+        hashMap.put("tables", tableService.getAllTables(keyword));
         hashMap.put("params", devtoolsProperties);
         Map<String, Object> map = new HashMap<>();
         map.put("success", true);

@@ -4,7 +4,7 @@ app.controller('GeneratorCtrl', [
     'Messager',
     '$modal',
     function ($scope, $http, Messager, $modal) {
-        function load() {
+        function load(keyword) {
             $scope.loading = true;
             $scope.setting = {
                 projectLocation: '',
@@ -12,7 +12,7 @@ app.controller('GeneratorCtrl', [
                 tablePrefix: '',
                 model: ''
             };
-            $http.get("generator/env").success(
+            $http.get("generator/env?keyword="+keyword).success(
                 function (result, status, headers, config) {
                     $scope.loading = false;
                     if (result.success) {
@@ -35,8 +35,16 @@ app.controller('GeneratorCtrl', [
             $scope.setup = setup;
         }
 
-        load();
+        load("");
 
+       $scope.search = function(){
+          load($scope.keyword);
+       }
+
+       $scope.reset = function(){
+          load("");
+          $scope.keyword = "";
+       }
 
         $scope.onTableClick = function () {
             var entityName = [];
