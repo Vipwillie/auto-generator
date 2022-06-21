@@ -19,7 +19,7 @@
         <springload-version>1.2.8.RELEASE</springload-version>
         <mybatis-plus.version>3.1.0</mybatis-plus.version>
         <druid.version>1.1.4</druid.version>
-        <mysql.version>8.0.20</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <swagger2.version>2.9.2</swagger2.version>
         <velocity.version>1.7</velocity.version>
         <beetl.version>3.1.0.RELEASE</beetl.version>
